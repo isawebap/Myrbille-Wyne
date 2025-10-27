@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Pour Mrs Wyne</title>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffe5ec 0%, #b8c6db 100%);
+      height: 100vh;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #container {
+      text-align: center;
+      background: rgba(255,255,255,0.85);
+      border-radius: 25px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      padding: 40px 24px;
+      width: 90vw; max-width: 400px;
+      min-height: 350px;
+      position: relative;
+    }
+    .hidden { display: none; }
+    .fade-in { animation: fadeIn 1s forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    #petals {
+      pointer-events: none;
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0;
+    }
+    .petal {
+      position: absolute;
+      width: 28px; height: 28px;
+      opacity: 0.8;
+      animation: fall 5s linear infinite;
+    }
+    @keyframes fall {
+      from { transform: translateY(-40px) rotate(0deg); }
+      to { transform: translateY(400px) rotate(180deg); opacity: 0.2; }
+    }
+    #bouquet {
+      font-size: 64px;
+      animation: popBouquet 1.2s cubic-bezier(.68,-0.55,.27,1.55);
+      margin: 20px 0;
+    }
+    @keyframes popBouquet {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    #msg {
+      font-size: 1.2em;
+      color: #4a4a4a;
+      margin-top: 18px;
+    }
+    #btn {
+      background: #e05297;
+      color: #fff;
+      border: none;
+      border-radius: 18px;
+      font-size: 1em;
+      padding: 10px 30px;
+      cursor: pointer;
+      margin-top: 32px;
+      box-shadow: 0 2px 12px rgba(224,82,151,0.12);
+      transition: background 0.2s;
+    }
+    #btn:hover {
+      background: #be3570;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Petals animation -->
+    <div id="petals"></div>
+    <!-- Step 1: Welcome -->
+    <h1 id="welcome" class="fade-in">Bienvenue Mrs Wyne</h1>
+    <!-- Step 2: Secret -->
+    <div id="secret" class="hidden fade-in">Un petit secret se cache ici…</div>
+    <!-- Step 3: Button -->
+    <button id="btn" class="hidden">Découvrir</button>
+    <!-- Step 4: Bouquet -->
+    <div id="bouquet" class="hidden">💐</div>
+    <!-- Step 5: Message -->
+    <div id="msg" class="hidden"></div>
+  </div>
+  <script>
+    // Petals animation
+    function createPetal() {
+      const petal = document.createElement('img');
+      petal.src = 'https://emojiapi.dev/api/v1/1F338/64.png'; // cherry blossom emoji as petal
+      petal.className = 'petal';
+      petal.style.left = Math.random() * 350 + 'px';
+      petal.style.top = Math.random() * 40 + 'px';
+      petal.style.animationDelay = Math.random() * 3 + 's';
+      document.getElementById('petals').appendChild(petal);
+      setTimeout(() => petal.remove(), 5000);
+    }
+    setInterval(createPetal, 600);
+
+    // Steps logic
+    setTimeout(() => {
+      document.getElementById('welcome').classList.add('hidden');
+      document.getElementById('secret').classList.remove('hidden');
+    }, 2100);
+
+    setTimeout(() => {
+      document.getElementById('secret').classList.add('hidden');
+      document.getElementById('btn').classList.remove('hidden');
+    }, 4100);
+
+    document.getElementById('btn').onclick = () => {
+      document.getElementById('btn').classList.add('hidden');
+      document.getElementById('bouquet').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('msg').classList.remove('hidden');
+        document.getElementById('msg').classList.add('fade-in');
+        document.getElementById('msg').innerHTML = `
+          Je suis parti, mais tu restes dans mes pensées à chaque instant.<br>
+          J’espère que ces fleurs te feront sourire, autant que toi tu illumines mes journées quand je pense à toi.<br>
+          À bien y réfléchir, ce n’est pas le pays qui me manque le plus, mais toi.<br><br>
+          <i>You don’t have a damn idea how much I love you.</i><br><br>
+          Hope to see you soon, in a near future and wishing it won’t be too late.<br><br>
+          <b>I love you. 💐</b>
+        `;
+      }, 1300);
+    };
+  </script>
+</body>
+</html>
